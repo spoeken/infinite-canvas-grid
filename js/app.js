@@ -30,7 +30,7 @@
 		};
 }());
 
-//Clone function
+//Clone function, damn I gotta remember them sources
 Object.prototype.clone = function() {
   var newObj = (this instanceof Array) ? [] : {};
   for (var i in this) {
@@ -292,7 +292,7 @@ window.onload=function(){
 
 			restack();
 
-			//Scroll stop timer kashizle
+			//Scroll stop timer kashizle, copied from somewhere
 			clearTimeout($.data(this, 'scrollTimer'));
 			$.data(this, 'scrollTimer', setTimeout(function() {
 				// do something, anything!
@@ -316,12 +316,18 @@ window.onload=function(){
 			for (var i = rects.length - 1; i >= 0; i--) {
 				var x = rects[i].tlX;
 				var y = rects[i].tlY;
-				
-				outToCons[i] = {x: x, y: y}; //Remember, the rects are in reverse order
 				// Check x and y seperatly, and if they are less than -rectSize, we throw them over to the other side
+				if(x < -rectSize){
+					console.log(i+' says: Im negatively off X');
+				}
+				if(y < -rectSize){
+					console.log(i+' says: Im negatively off Y');
+				}
 				// If they are not, we gotta check if they are far off the positive way
 				// So if they are rectSize more than screensize, we throw them to the other side. 
 				// You can imagine there will be a lot of throwing around.
+
+				//outToCons[i] = {x: x, y: y}; //Remember, the rects are in reverse order
 			};
 		console.log(outToCons);
 	}
