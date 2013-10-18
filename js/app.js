@@ -106,7 +106,7 @@ window.onload=function(){
 		rects[i].color2 = '#'+hue2;
 	};
 
-	originRects = rects.clone();
+	var rectsClone = rects.clone();
 
 	function draw(){
 		ctx.clearRect(0, 0, windowWidth, windowHeight); //Just clearing the screen
@@ -130,6 +130,24 @@ window.onload=function(){
 
 		draw(); //Does all of that drawing
 
+		restack();
+
+		//Need an easing function here:
+		for (var i = rects.length - 1; i >= 0; i--) {
+			//CornerPoints
+			rects[i].tlX = rectsClone[i].tlX; //Top left x
+			rects[i].tlY = rectsClone[i].tlY; //Top left y
+
+			rects[i].trX = rectsClone[i].trX; //Top right left x
+			rects[i].trY = rectsClone[i].trY; //Top right left y
+
+			rects[i].brX = rectsClone[i].brX; //Botton left x
+			rects[i].brY = rectsClone[i].brY; //Bottom left y
+
+			rects[i].blX = rectsClone[i].blX; //Botton left x
+			rects[i].blY = rectsClone[i].blY; //Bottom left y
+		};
+
 		requestAnimationFrame(update);
 	}
 
@@ -140,6 +158,7 @@ window.onload=function(){
 
 	//Mouse Controll
 	// Hovering/Mouseover/Collisiondetection
+	// Doesnt work now since the rects are moving when you scroll
 	var flag = 0; 
 	var mousedown = false;
 	var rectHits = [];
@@ -162,7 +181,7 @@ window.onload=function(){
 	    	 var id = (Math.floor(rowPos)*cols)+Math.ceil(colPos);
 	    	 id = (cols * rows) - id;
 	    	 console.log('Id: '+ id + 'Side:'+ sidePos);
-	    	 nodeMover(id);
+	    	 // nodeMover(id);
 	    	 
 	    }
 	}, false);
@@ -176,74 +195,7 @@ window.onload=function(){
 	    }
 	}, false);
 
-	// Movement/Animation
-	// Lets move them fuckin nodes
-	// All we need is the id of the rect were on
-	var currentId,
-		prevId = 0;
-	function nodeMover(i){
-		//First reset all the nodes to its original
-		//We dont want these changes to be permanent right?
-			//Or maybe we can store the current id, and check if its the same as last time, and if not we reset the previous nodes
-	
 
-		currentId = i;
-		if(currentId !== prevId){
-			transformRect(prevId, 0);
-		}
-
-		transformRect(i, 20);
-		//Then, lets find what nodes the rect consists of
-		//We also need to determine what is tl tr bl br
-
-		//Then, we offset the shit
-		//All nodes moving outwards from the rect
-
-		//We probably want to ease the transition of the offset
-		prevId = currentId;
-	}
-
-
-	//The transform is pretty much fucked up. Do something else man!
-	function transformRect(i, offset){
-		var middle = i;
-		//Middle
-		rects[middle].tlX = originRects[i].tlX - offset; 
-		rects[i].tlY = originRects[i].tlY - offset;
-
-		rects[i].trX = originRects[i].trX + offset; 
-		rects[i].trY = originRects[i].trY - offset;
-
-		rects[i].brX = originRects[i].brX + offset; 
-		rects[i].brY = originRects[i].brY + offset;
-		
-		rects[i].blX = originRects[i].blX - offset;
-		rects[i].blY = originRects[i].blY + offset;
-
-		// Top
-			var top = i+cols;
-			console.log(top);
-			rects[top].brX = originRects[top].brX + offset; 
-			rects[top].brY = originRects[top].brY - offset;
-			
-			rects[top].blX = originRects[top].blX - offset;
-			rects[top].blY = originRects[top].blY - offset;
-		//Top Right
-			var topRight = top-1;
-			rects[topRight].blX = originRects[topRight].blX + offset;
-			rects[topRight].blY = originRects[topRight].blY - offset;
-		// Right
-			var right = i-1;
-			console.log(right);
-			//rects[right].tlX = originRects[right].tlX + offset;
-			// rects[right].tlY = originRects[right].tlY - offset;
-
-			// rects[right].blX = originRects[right].blX + offset;
-			// rects[right].blY = originRects[right].blY + offset;
-		// Bottom
-
-		// Left
-	}
 
 
 
@@ -270,27 +222,27 @@ window.onload=function(){
 
 			// Move them rects
 			// -------------------
-			// This should be eased, lets make a clone of the rects, 
-			// update that clone with the new info and then in draw
-			// we can ease to movement from current state, to the goal.
+			// This should be eased, lets make a clone of the rects, DONE
+			// update that clone with the new info and then DONE
+			// in draw we can ease to movement from current state, to the goal.
 
 			for (var i = rects.length - 1; i >= 0; i--) {
 				//CornerPoints
-				rects[i].tlX += x; //Top left x
-				rects[i].tlY += y; //Top left y
+				rectsClone[i].tlX += x; //Top left x
+				rectsClone[i].tlY += y; //Top left y
 
-				rects[i].trX += x; //Top right left x
-				rects[i].trY += y; //Top right left y
+				rectsClone[i].trX += x; //Top right left x
+				rectsClone[i].trY += y; //Top right left y
 
-				rects[i].brX += x; //Botton left x
-				rects[i].brY += y; //Bottom left y
+				rectsClone[i].brX += x; //Botton left x
+				rectsClone[i].brY += y; //Bottom left y
 
-				rects[i].blX += x; //Botton left x
-				rects[i].blY += y; //Bottom left y
+				rectsClone[i].blX += x; //Botton left x
+				rectsClone[i].blY += y; //Bottom left y
 			};
 
 
-			restack();
+			
 
 			//Scroll stop timer kashizle, copied from somewhere
 			clearTimeout($.data(this, 'scrollTimer'));
@@ -319,9 +271,11 @@ window.onload=function(){
 				// Check x and y seperatly, and if they are less than -rectSize, we throw them over to the other side
 				if(x < -rectSize){
 					console.log(i+' says: Im negatively off X');
+					moveRectRight(i);
 				}
 				if(y < -rectSize){
 					console.log(i+' says: Im negatively off Y');
+					moveRectDown(i);
 				}
 				// If they are not, we gotta check if they are far off the positive way
 				// So if they are rectSize more than screensize, we throw them to the other side. 
@@ -329,8 +283,34 @@ window.onload=function(){
 
 				//outToCons[i] = {x: x, y: y}; //Remember, the rects are in reverse order
 			};
-		console.log(outToCons);
+		//console.log(outToCons);
 	}
+
+	function moveRectRight(i){
+		var offset = rectSize * cols;
+		rects[i].tlX += offset; //Top left x
+		rectsClone[i].tlX += offset; //Top left x
+		rects[i].trX += offset; //Top right left x
+		rectsClone[i].trX += offset; //Top right left x
+		rects[i].brX += offset; //Botton right x
+		rectsClone[i].brX += offset; //Botton right x
+		rects[i].blX += offset; //Botton left x
+		rectsClone[i].blX += offset; //Botton left x
+	}
+
+	function moveRectDown(i){
+		var offset = rectSize * cols;
+		rects[i].tlY += offset; //Top left Y
+		rectsClone[i].tlY += offset; //Top left Y
+		rects[i].trY += offset; //Top right left Y
+		rectsClone[i].trY += offset; //Top right left Y
+		rects[i].brY += offset; //Botton right Y
+		rectsClone[i].brY += offset; //Botton right Y
+		rects[i].blY += offset; //Botton left Y
+		rectsClone[i].blY += offset; //Botton left Y
+	}
+
+
 
 
 };
