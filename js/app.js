@@ -50,7 +50,8 @@ window.onload=function(){
 
 	var dampener = 1;
 
-
+	$('.container').scrollLeft(100); //We will constantly do this on scroll, so lets do it right aways aswell
+	$('.container').scrollTop(100); // Preventing scroll, and stopping the overscroll in chrome and such.
 
 	c = document.getElementById('c');
 	ctx = c.getContext('2d');
@@ -267,7 +268,11 @@ window.onload=function(){
 
 			//$('.c').css({marginLeft:'+='+x+'px', marginTop: '+='+y+'px'}); //Keeping it just for reference
 
-			//move them rects
+			// Move them rects
+			// -------------------
+			// This should be eased, lets make a clone of the rects, 
+			// update that clone with the new info and then in draw
+			// we can ease to movement from current state, to the goal.
 
 			for (var i = rects.length - 1; i >= 0; i--) {
 				//CornerPoints
@@ -285,6 +290,8 @@ window.onload=function(){
 			};
 
 
+			restack();
+
 			//Scroll stop timer kashizle
 			clearTimeout($.data(this, 'scrollTimer'));
 			$.data(this, 'scrollTimer', setTimeout(function() {
@@ -301,6 +308,23 @@ window.onload=function(){
 			return false;
 		
 	});
+
+	// Restack function - it made sence when I was having a bunch of floating divs ok.
+	function restack () {
+		var outToCons = [];
+		// Lets loop through the rects and check their position
+			for (var i = rects.length - 1; i >= 0; i--) {
+				var x = rects[i].tlX;
+				var y = rects[i].tlY;
+				
+				outToCons[i] = {x: x, y: y}; //Remember, the rects are in reverse order
+				// Check x and y seperatly, and if they are less than -rectSize, we throw them over to the other side
+				// If they are not, we gotta check if they are far off the positive way
+				// So if they are rectSize more than screensize, we throw them to the other side. 
+				// You can imagine there will be a lot of throwing around.
+			};
+		console.log(outToCons);
+	}
 
 
 };
