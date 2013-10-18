@@ -202,6 +202,8 @@ window.onload=function(){
 		prevId = currentId;
 	}
 
+
+	//The transform is pretty much fucked up. Do something else man!
 	function transformRect(i, offset){
 		var middle = i;
 		//Middle
@@ -246,7 +248,7 @@ window.onload=function(){
 
 
 	//Scroll functions
-	window.onscroll = function(e){
+	$('.container').on('scroll' ,function(e){
 		
 			var x = ($('.container').scrollLeft() - 100) / dampener; //Getting the amount of scroll
 				x *= -1 ;//Invert it, else it will look like we scroll in the oposite direction
@@ -257,13 +259,13 @@ window.onload=function(){
 			$('.container').scrollTop(100); // Preventing scroll, and stopping the overscroll in chrome and such.
 			
 
-			$('.c').css({marginLeft:'+='+x+'px', marginTop: '+='+y+'px'});
 
 			// We need to check the rects and restack them when needed. 
 			// I mean, when the user scrolls the rects have to place themselves 
 			// so that it looks like the grid just repeats itself
 
 
+			//$('.c').css({marginLeft:'+='+x+'px', marginTop: '+='+y+'px'}); //Keeping it just for reference
 
 			//move them rects
 
@@ -298,7 +300,7 @@ window.onload=function(){
 			e.preventDefault();
 			return false;
 		
-	}
+	});
 
 
 };

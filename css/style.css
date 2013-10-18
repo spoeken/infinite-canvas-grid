@@ -3,11 +3,21 @@ body {
   width: 100%;
   height: 100%;
 }
-.filler {
+#filler {
   width: 200%;
   height: 200%;
-  position: absolute;
+  position: relative;
+  background: none;
 }
 #c {
+  position: absolute;
+  top: 100px;
+  left: 100px;
+}
+.container {
+  width: 100%;
+  height: 100%;
   position: fixed;
+  overflow: scroll;
+  display: block;
 }
