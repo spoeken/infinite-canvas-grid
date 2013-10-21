@@ -135,8 +135,8 @@ window.onload=function(){
 		//Need an easing function here:
 		for (var i = rects.length - 1; i >= 0; i--) {
 			//CornerPoints
-			rects[i].tlX = easeOutCubic(0, rects[i].tlX, rectsClone[i].tlX, 40); //Top left x
-			rects[i].tlY = easeOutCubic(0, rects[i].tlY, rectsClone[i].tlY, 40); //Top left y
+			rects[i].tlX = easeOutCubic(10, rects[i].tlX, rectsClone[i].tlX, 40); //Top left x
+			rects[i].tlY = easeOutCubic(10, rects[i].tlY, rectsClone[i].tlY, 40); //Top left y
 
 			rects[i].trX = rectsClone[i].trX; //Top right left x
 			rects[i].trY = rectsClone[i].trY; //Top right left y
