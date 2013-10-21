@@ -262,6 +262,12 @@ window.onload=function(){
 	});
 
 	// Restack function - it made sence when I was having a bunch of floating divs ok.
+	//Setting the points where it should restack
+	var restackPointL = -rectSize;
+	var restackPointR = (rectSize * cols) - rectSize;
+	var restackPointT = -rectSize;
+	var restackPointB = rectSize * cols - rectSize - 2;
+
 	function restack () {
 		var outToCons = [];
 		// Lets loop through the rects and check their position
@@ -269,13 +275,17 @@ window.onload=function(){
 				var x = rects[i].tlX;
 				var y = rects[i].tlY;
 				// Check x and y seperatly, and if they are less than -rectSize, we throw them over to the other side
-				if(x < -rectSize){
+				if(x < restackPointL){
 					console.log(i+' says: Im negatively off X');
 					moveRectRight(i);
+				} else if(x > restackPointR){
+					moveRectLeft(i);
 				}
 				if(y < -rectSize){
 					console.log(i+' says: Im negatively off Y');
 					moveRectDown(i);
+				} else if(y > restackPointB){
+					moveRectUp(i);
 				}
 				// If they are not, we gotta check if they are far off the positive way
 				// So if they are rectSize more than screensize, we throw them to the other side. 
@@ -298,6 +308,18 @@ window.onload=function(){
 		rectsClone[i].blX += offset; //Botton left x
 	}
 
+	function moveRectLeft(i){
+		var offset = rectSize * cols;
+		rects[i].tlX -= offset; //Top left x
+		rectsClone[i].tlX -= offset; //Top left x
+		rects[i].trX -= offset; //Top right left x
+		rectsClone[i].trX -= offset; //Top right left x
+		rects[i].brX -= offset; //Botton right x
+		rectsClone[i].brX -= offset; //Botton right x
+		rects[i].blX -= offset; //Botton left x
+		rectsClone[i].blX -= offset; //Botton left x
+	}
+
 	function moveRectDown(i){
 		var offset = rectSize * cols;
 		rects[i].tlY += offset; //Top left Y
@@ -308,6 +330,18 @@ window.onload=function(){
 		rectsClone[i].brY += offset; //Botton right Y
 		rects[i].blY += offset; //Botton left Y
 		rectsClone[i].blY += offset; //Botton left Y
+	}
+
+	function moveRectUp(i){
+		var offset = rectSize * cols;
+		rects[i].tlY -= offset; //Top left Y
+		rectsClone[i].tlY -= offset; //Top left Y
+		rects[i].trY -= offset; //Top right left Y
+		rectsClone[i].trY -= offset; //Top right left Y
+		rects[i].brY -= offset; //Botton right Y
+		rectsClone[i].brY -= offset; //Botton right Y
+		rects[i].blY -= offset; //Botton left Y
+		rectsClone[i].blY -= offset; //Botton left Y
 	}
 
 
