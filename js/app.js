@@ -135,8 +135,8 @@ window.onload=function(){
 		//Need an easing function here:
 		for (var i = rects.length - 1; i >= 0; i--) {
 			//CornerPoints
-			rects[i].tlX = rectsClone[i].tlX; //Top left x
-			rects[i].tlY = rectsClone[i].tlY; //Top left y
+			rects[i].tlX = easeOutCubic(0, rects[i].tlX, rectsClone[i].tlX, 40); //Top left x
+			rects[i].tlY = easeOutCubic(0, rects[i].tlY, rectsClone[i].tlY, 40); //Top left y
 
 			rects[i].trX = rectsClone[i].trX; //Top right left x
 			rects[i].trY = rectsClone[i].trY; //Top right left y
@@ -156,7 +156,7 @@ window.onload=function(){
 	requestAnimationFrame(update);
 
 
-	//Mouse Controll
+//Mouse Controll
 	// Hovering/Mouseover/Collisiondetection
 	// Doesnt work now since the rects are moving when you scroll
 	var flag = 0; 
@@ -200,7 +200,7 @@ window.onload=function(){
 
 
 
-	//Scroll functions
+//Scroll functions
 	$('.container').on('scroll' ,function(e){
 		
 			var x = ($('.container').scrollLeft() - 100) / dampener; //Getting the amount of scroll
@@ -220,11 +220,7 @@ window.onload=function(){
 
 			//$('.c').css({marginLeft:'+='+x+'px', marginTop: '+='+y+'px'}); //Keeping it just for reference
 
-			// Move them rects
-			// -------------------
-			// This should be eased, lets make a clone of the rects, DONE
-			// update that clone with the new info and then DONE
-			// in draw we can ease to movement from current state, to the goal.
+			//Update position of the rect points
 
 			for (var i = rects.length - 1; i >= 0; i--) {
 				//CornerPoints
@@ -261,7 +257,7 @@ window.onload=function(){
 		
 	});
 
-	// Restack function - it made sence when I was having a bunch of floating divs ok.
+// Restack function - it made sence when I was having a bunch of floating divs ok.
 	//Setting the points where it should restack
 	var restackPointL = -rectSize;
 	var restackPointR = (rectSize * cols) - rectSize;
@@ -344,7 +340,15 @@ window.onload=function(){
 		rectsClone[i].blY -= offset; //Botton left Y
 	}
 
+//Easing Functions
 
+	function easeOutCubic(t, b, c, d) {
+		return c*((t=t/d-1)*t*t + 1) + b;
+	}
+
+	function easeInOutSine(t, b, c, d) {
+		return -c/2 * (Math.cos(Math.PI*t/d) - 1) + b;
+	}
 
 
 };
