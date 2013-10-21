@@ -135,17 +135,17 @@ window.onload=function(){
 		//Need an easing function here:
 		for (var i = rects.length - 1; i >= 0; i--) {
 			//CornerPoints
-			rects[i].tlX = easeOutCubic(10, rects[i].tlX, rectsClone[i].tlX, 40); //Top left x
-			rects[i].tlY = easeOutCubic(10, rects[i].tlY, rectsClone[i].tlY, 40); //Top left y
+			rects[i].tlX = easeOutCubic(40, rectsClone[i].tlX, rects[i].tlX, 60); //Top left x
+			rects[i].tlY = easeOutCubic(40, rectsClone[i].tlY , rects[i].tlY, 60); //Top left y
 
-			rects[i].trX = rectsClone[i].trX; //Top right left x
-			rects[i].trY = rectsClone[i].trY; //Top right left y
+			rects[i].trX = easeOutCubic(40, rectsClone[i].trX, rects[i].trX, 60); //Top right left x
+			rects[i].trY = easeOutCubic(40, rectsClone[i].trY, rects[i].trY, 60); //Top right left y
 
-			rects[i].brX = rectsClone[i].brX; //Botton left x
-			rects[i].brY = rectsClone[i].brY; //Bottom left y
+			rects[i].brX = easeOutCubic(40, rectsClone[i].brX, rects[i].brX, 60); //Botton left x
+			rects[i].brY = easeOutCubic(40, rectsClone[i].brY, rects[i].brY, 60); //Bottom left y
 
-			rects[i].blX = rectsClone[i].blX; //Botton left x
-			rects[i].blY = rectsClone[i].blY; //Bottom left y
+			rects[i].blX = easeOutCubic(40, rectsClone[i].blX, rects[i].blX, 60); //Botton left x
+			rects[i].blY = easeOutCubic(40, rectsClone[i].blY, rects[i].blY, 60); //Bottom left y
 		};
 
 		requestAnimationFrame(update);
