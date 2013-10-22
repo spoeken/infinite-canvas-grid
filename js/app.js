@@ -358,7 +358,7 @@ window.onload=function(){
 	}
 
 	function easeCustom(t, b, c, d) {
-		return c + Math.floor((b - c) /10);
+		return c + Math.floor((b - c) /20);
 		
 	}
 
