@@ -132,20 +132,24 @@ window.onload=function(){
 
 		restack();
 
+		// if(scrollFlag){
+		// 	rectSize = 100;
+		// }
+
 		//Need an easing function here:
 		for (var i = rects.length - 1; i >= 0; i--) {
 			//CornerPoints
-			rects[i].tlX = easeOutCubic(40, rectsClone[i].tlX, rects[i].tlX, 60); //Top left x
-			rects[i].tlY = easeOutCubic(40, rectsClone[i].tlY , rects[i].tlY, 60); //Top left y
+			rects[i].tlX = easeCustom(1, rectsClone[i].tlX, rects[i].tlX, 60); //Top left x
+			rects[i].tlY = easeCustom(1, rectsClone[i].tlY , rects[i].tlY, 60); //Top left y
 
-			rects[i].trX = easeOutCubic(40, rectsClone[i].trX, rects[i].trX, 60); //Top right left x
-			rects[i].trY = easeOutCubic(40, rectsClone[i].trY, rects[i].trY, 60); //Top right left y
+			rects[i].trX = easeCustom(1, rectsClone[i].trX, rects[i].trX, 60); //Top right left x
+			rects[i].trY = easeCustom(1, rectsClone[i].trY, rects[i].trY, 60); //Top right left y
 
-			rects[i].brX = easeOutCubic(40, rectsClone[i].brX, rects[i].brX, 60); //Botton left x
-			rects[i].brY = easeOutCubic(40, rectsClone[i].brY, rects[i].brY, 60); //Bottom left y
+			rects[i].brX = easeCustom(1, rectsClone[i].brX, rects[i].brX, 60); //Botton left x
+			rects[i].brY = easeCustom(1, rectsClone[i].brY, rects[i].brY, 60); //Bottom left y
 
-			rects[i].blX = easeOutCubic(40, rectsClone[i].blX, rects[i].blX, 60); //Botton left x
-			rects[i].blY = easeOutCubic(40, rectsClone[i].blY, rects[i].blY, 60); //Bottom left y
+			rects[i].blX = easeCustom(1, rectsClone[i].blX, rects[i].blX, 60); //Botton left x
+			rects[i].blY = easeCustom(1, rectsClone[i].blY, rects[i].blY, 60); //Bottom left y
 		};
 
 		requestAnimationFrame(update);
@@ -201,13 +205,15 @@ window.onload=function(){
 
 
 //Scroll functions
+	var scrollFlag = false;
 	$('.container').on('scroll' ,function(e){
-		
+			var scrollFlag = true;
+
 			var x = ($('.container').scrollLeft() - 100) / dampener; //Getting the amount of scroll
 				x *= -1 ;//Invert it, else it will look like we scroll in the oposite direction
 			var y = ($('.container').scrollTop() - 100) / dampener;
 				y *= -1 ;//Invert it
-			console.log(x);
+
 			$('.container').scrollLeft(100);
 			$('.container').scrollTop(100); // Preventing scroll, and stopping the overscroll in chrome and such.
 			
@@ -244,6 +250,7 @@ window.onload=function(){
 			clearTimeout($.data(this, 'scrollTimer'));
 			$.data(this, 'scrollTimer', setTimeout(function() {
 				// do something, anything!
+				var scrollFlag = false;
 				console.log("Haven't scrolled in 250ms!");
 				
 				$('html').removeClass('zoom');
@@ -348,6 +355,11 @@ window.onload=function(){
 
 	function easeInOutSine(t, b, c, d) {
 		return -c/2 * (Math.cos(Math.PI*t/d) - 1) + b;
+	}
+
+	function easeCustom(t, b, c, d) {
+		return b - (Math.abs(b + c)+20;
+		
 	}
 
 
