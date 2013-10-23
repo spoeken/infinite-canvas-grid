@@ -48,7 +48,7 @@ window.onload=function(){
 	//Get some intel
 
 
-	var zoomAmount = [0,0];
+	var currentScale = 1;
 	var dampener = 1;
 
 	$('.container').scrollLeft(100); //We will constantly do this on scroll, so lets do it right aways aswell
@@ -115,7 +115,7 @@ window.onload=function(){
 	//yh, I wanted to seperate the update and draw, cause We wont just draw stuff, we will update other things as well
 	function update() { 
 
-		zoom(zoomAmount);
+		zoom();
 
 		draw(); //Does all of that drawing
 
@@ -203,7 +203,8 @@ window.onload=function(){
 			// I mean, when the user scrolls the rects have to place themselves 
 			// so that it looks like the grid just repeats itself
 
-			zoomAmount = [x, y];
+	
+			zoomAdd([x, y]);
 			//$('.c').css({marginLeft:'+='+x+'px', marginTop: '+='+y+'px'}); //Keeping it just for reference
 
 			//Update position of the rect points
@@ -222,24 +223,40 @@ window.onload=function(){
 			$.data(this, 'scrollTimer', setTimeout(function() {
 				// do something, anything!
 				var scrollFlag = false;
-				console.log("Haven't scrolled in 250ms!");
-				
-				$('html').removeClass('zoom');
-				setTimeout(function() {
-					
-				}, 500);
+				console.log("Haven't scrolled in 100ms!");
 
-			}, 250));
+
+			}, 50));
 			e.preventDefault();
 			return false;
 		
 	});
 // Zoom function
-	function zoom(){
-		var amount = Math.abs(zoomAmount[0]) + Math.abs(zoomAmount[1]);
-		//console.log(amount);
-		ctx.scale(0.999, 0.999);
+	var zoomSpeed = 0.01;
+	var zoomBuffer = 0.00000001;
+	function zoomAdd(zoomAmount){
+		var amount = (Math.abs(zoomAmount[0]) + Math.abs(zoomAmount[1]))/2000;
+		if(zoomBuffer < 0.06){
+			//console.log('buffer:'+zoomBuffer);
+			zoomBuffer += amount;
+		}
 	}
+	function zoom () {
+		var neg = 0;
+		var pos = 0;
+		if(zoomBuffer > 0 && currentScale > 0.6){
+			neg = zoomBuffer/2;
+			zoomBuffer -= neg;
+			
+		}
+		if(currentScale < 1){
+			pos = 0.02;
+		}
+		currentScale = currentScale + pos - neg;
+		ctx.scale((1-neg+pos), (1-neg+pos));
+	}
+	
+
 
 // Restack function - it made sence when I was having a bunch of floating divs ok.
 	//Setting the points where it should restack
