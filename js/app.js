@@ -48,6 +48,7 @@ window.onload=function(){
 	//Get some intel
 
 
+	var zoomAmount = [0,0];
 	var dampener = 1;
 
 	$('.container').scrollLeft(100); //We will constantly do this on scroll, so lets do it right aways aswell
@@ -90,20 +91,9 @@ window.onload=function(){
 		rects[i].tlX = x; //Top left x
 		rects[i].tlY = y; //Top left y
 
-		rects[i].trX = x + rectSize; //Top right left x
-		rects[i].trY = y; //Top right left y
-
-		rects[i].brX = x + rectSize; //Botton left x
-		rects[i].brY = y + rectSize; //Bottom left y
-
-		rects[i].blX = x; //Botton left x
-		rects[i].blY = y + rectSize; //Bottom left y
-
 		//Colors
 		var hue1 = hues[Math.floor(Math.random()*hues.length)];
-		var hue2 = hues[Math.floor(Math.random()*hues.length)];
 		rects[i].color1 = '#'+hue1;
-		rects[i].color2 = '#'+hue2;
 	};
 
 	var rectsClone = rects.clone();
@@ -124,6 +114,8 @@ window.onload=function(){
 
 	//yh, I wanted to seperate the update and draw, cause We wont just draw stuff, we will update other things as well
 	function update() { 
+
+		zoom(zoomAmount);
 
 		draw(); //Does all of that drawing
 
@@ -211,7 +203,7 @@ window.onload=function(){
 			// I mean, when the user scrolls the rects have to place themselves 
 			// so that it looks like the grid just repeats itself
 
-
+			zoomAmount = [x, y];
 			//$('.c').css({marginLeft:'+='+x+'px', marginTop: '+='+y+'px'}); //Keeping it just for reference
 
 			//Update position of the rect points
@@ -242,6 +234,12 @@ window.onload=function(){
 			return false;
 		
 	});
+// Zoom function
+	function zoom(){
+		var amount = Math.abs(zoomAmount[0]) + Math.abs(zoomAmount[1]);
+		//console.log(amount);
+		ctx.scale(0.999, 0.999);
+	}
 
 // Restack function - it made sence when I was having a bunch of floating divs ok.
 	//Setting the points where it should restack
