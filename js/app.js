@@ -114,13 +114,10 @@ window.onload=function(){
 		for (var i = rects.length - 1; i >= 0; i--) { //Drawing them rects, I'm getting really good at this now
 			ctx.beginPath();
 			ctx.moveTo(rects[i].tlX, rects[i].tlY);
-			ctx.lineTo(rects[i].trX, rects[i].trY);
-			ctx.lineTo(rects[i].brX, rects[i].brY);
-			ctx.lineTo(rects[i].blX, rects[i].blY);
+			ctx.rect(rects[i].tlX, rects[i].tlY, rectSize, rectSize);
 			ctx.closePath();
 			ctx.fillStyle = rects[i].color1;
 			ctx.fill();
-			ctx.stroke();
 			
 		};
 	}
@@ -141,15 +138,6 @@ window.onload=function(){
 			//CornerPoints
 			rects[i].tlX = easeCustom(1, rectsClone[i].tlX, rects[i].tlX, 60); //Top left x
 			rects[i].tlY = easeCustom(1, rectsClone[i].tlY , rects[i].tlY, 60); //Top left y
-
-			rects[i].trX = easeCustom(1, rectsClone[i].trX, rects[i].trX, 60); //Top right left x
-			rects[i].trY = easeCustom(1, rectsClone[i].trY, rects[i].trY, 60); //Top right left y
-
-			rects[i].brX = easeCustom(1, rectsClone[i].brX, rects[i].brX, 60); //Botton left x
-			rects[i].brY = easeCustom(1, rectsClone[i].brY, rects[i].brY, 60); //Bottom left y
-
-			rects[i].blX = easeCustom(1, rectsClone[i].blX, rects[i].blX, 60); //Botton left x
-			rects[i].blY = easeCustom(1, rectsClone[i].blY, rects[i].blY, 60); //Bottom left y
 		};
 
 		requestAnimationFrame(update);
@@ -232,15 +220,6 @@ window.onload=function(){
 				//CornerPoints
 				rectsClone[i].tlX += x; //Top left x
 				rectsClone[i].tlY += y; //Top left y
-
-				rectsClone[i].trX += x; //Top right left x
-				rectsClone[i].trY += y; //Top right left y
-
-				rectsClone[i].brX += x; //Botton left x
-				rectsClone[i].brY += y; //Bottom left y
-
-				rectsClone[i].blX += x; //Botton left x
-				rectsClone[i].blY += y; //Bottom left y
 			};
 
 
@@ -279,13 +258,11 @@ window.onload=function(){
 				var y = rects[i].tlY;
 				// Check x and y seperatly, and if they are less than -rectSize, we throw them over to the other side
 				if(x < restackPointL){
-					console.log(i+' says: Im negatively off X');
 					moveRectRight(i);
 				} else if(x > restackPointR){
 					moveRectLeft(i);
 				}
 				if(y < -rectSize){
-					console.log(i+' says: Im negatively off Y');
 					moveRectDown(i);
 				} else if(y > restackPointB){
 					moveRectUp(i);
@@ -303,48 +280,24 @@ window.onload=function(){
 		var offset = rectSize * cols;
 		rects[i].tlX += offset; //Top left x
 		rectsClone[i].tlX += offset; //Top left x
-		rects[i].trX += offset; //Top right left x
-		rectsClone[i].trX += offset; //Top right left x
-		rects[i].brX += offset; //Botton right x
-		rectsClone[i].brX += offset; //Botton right x
-		rects[i].blX += offset; //Botton left x
-		rectsClone[i].blX += offset; //Botton left x
 	}
 
 	function moveRectLeft(i){
 		var offset = rectSize * cols;
 		rects[i].tlX -= offset; //Top left x
 		rectsClone[i].tlX -= offset; //Top left x
-		rects[i].trX -= offset; //Top right left x
-		rectsClone[i].trX -= offset; //Top right left x
-		rects[i].brX -= offset; //Botton right x
-		rectsClone[i].brX -= offset; //Botton right x
-		rects[i].blX -= offset; //Botton left x
-		rectsClone[i].blX -= offset; //Botton left x
 	}
 
 	function moveRectDown(i){
 		var offset = rectSize * cols;
 		rects[i].tlY += offset; //Top left Y
 		rectsClone[i].tlY += offset; //Top left Y
-		rects[i].trY += offset; //Top right left Y
-		rectsClone[i].trY += offset; //Top right left Y
-		rects[i].brY += offset; //Botton right Y
-		rectsClone[i].brY += offset; //Botton right Y
-		rects[i].blY += offset; //Botton left Y
-		rectsClone[i].blY += offset; //Botton left Y
 	}
 
 	function moveRectUp(i){
 		var offset = rectSize * cols;
 		rects[i].tlY -= offset; //Top left Y
 		rectsClone[i].tlY -= offset; //Top left Y
-		rects[i].trY -= offset; //Top right left Y
-		rectsClone[i].trY -= offset; //Top right left Y
-		rects[i].brY -= offset; //Botton right Y
-		rectsClone[i].brY -= offset; //Botton right Y
-		rects[i].blY -= offset; //Botton left Y
-		rectsClone[i].blY -= offset; //Botton left Y
 	}
 
 //Easing Functions
