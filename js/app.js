@@ -234,6 +234,8 @@ window.onload=function(){
 // Zoom function
 	var zoomSpeed = 0.01;
 	var zoomBuffer = 0.00000001;
+	var targetZoom = 0;
+	var prevScale = 0;
 	function zoomAdd(zoomAmount){
 		var amount = (Math.abs(zoomAmount[0]) + Math.abs(zoomAmount[1]))/2000;
 		if(zoomBuffer < 0.06){
@@ -252,8 +254,13 @@ window.onload=function(){
 		if(currentScale < 1){
 			pos = 0.02;
 		}
+		
+		targetZoom += neg-pos;
+		var scale = ((targetZoom+prevScale)/10)*(currentScale*2);
+		prevScale = scale;
 		currentScale = currentScale + pos - neg;
-		ctx.scale((1-neg+pos), (1-neg+pos));
+		targetZoom -= scale;
+		ctx.scale((1-scale), (1-scale));
 	}
 	
 
