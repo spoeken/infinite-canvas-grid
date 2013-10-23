@@ -1,11 +1,8 @@
 
-	// http://paulirish.com/2011/requestanimationframe-for-smart-animating/
-	// http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
-	 
-	// requestAnimationFrame polyfill by Erik Möller
-	// fixes from Paul Irish and Tino Zijdel
 	 
 (function() {
+	// requestAnimationFrame polyfill by Erik Möller
+	// fixes from Paul Irish and Tino Zijdel
 	var lastTime = 0;
 	var vendors = ['ms', 'moz', 'webkit', 'o'];
 	for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
@@ -256,7 +253,7 @@ window.onload=function(){
 		}
 		
 		targetZoom += neg-pos;
-		var scale = ((targetZoom+prevScale)/10)*(currentScale*2);
+		var scale = easeOutQuart(currentScale, prevScale, targetZoom, 20); //Trying to ease some here
 		prevScale = scale;
 		currentScale = currentScale + pos - neg;
 		targetZoom -= scale;
@@ -327,7 +324,11 @@ window.onload=function(){
 	function easeOutCubic(t, b, c, d) {
 		return c*((t=t/d-1)*t*t + 1) + b;
 	}
-
+	function easeOutQuart(t, b, c, d) {
+	    t /= d;
+	    t--;
+	    return -c * (t*t*t*t - 1) + b;
+	};
 	function easeInOutSine(t, b, c, d) {
 		return -c/2 * (Math.cos(Math.PI*t/d) - 1) + b;
 	}
