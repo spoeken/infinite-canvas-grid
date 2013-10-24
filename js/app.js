@@ -45,7 +45,6 @@ window.onload=function(){
 	//Get some intel
 
 
-	var currentScale = 1;
 	var dampener = 1;
 
 	$('.container').scrollLeft(100); //We will constantly do this on scroll, so lets do it right aways aswell
@@ -232,7 +231,8 @@ window.onload=function(){
 	var zoomSpeed = 0.01;
 	var zoomBuffer = 0.00000001;
 	var targetZoom = 0;
-	var prevScale = 0;
+	var prevScale = 1;
+	var currentScale = 1;
 	function zoomAdd(zoomAmount){
 		var amount = (Math.abs(zoomAmount[0]) + Math.abs(zoomAmount[1]))/2000;
 		if(zoomBuffer < 0.06){
@@ -253,7 +253,7 @@ window.onload=function(){
 		}
 		
 		targetZoom += neg-pos;
-		var scale = easeOutQuart(currentScale, prevScale, targetZoom, 20); //Trying to ease some here
+		var scale = (targetZoom+prevScale)/2; //Trying to ease some here
 		prevScale = scale;
 		currentScale = currentScale + pos - neg;
 		targetZoom -= scale;
