@@ -253,7 +253,7 @@ window.onload=function(){
 		}
 		
 		targetZoom += neg-pos;
-		var scale = (targetZoom+prevScale)/2; //Trying to ease some here
+		var scale = (targetZoom/5)*(currentScale*2); //Trying to ease some here
 		prevScale = scale;
 		currentScale = currentScale + pos - neg;
 		targetZoom -= scale;
